@@ -49,14 +49,23 @@ let legend = L.control({ position: 'bottomright' });
 
 legend.onAdd = function(map) {
     let div = L.DomUtil.create('div', 'info legend');
-    let depths = [-10,10, 30, 50, 70, 90];
-    let colors = ['#D1E231', 'green','cyan','yellow', 'orange', 'red'];
+    let depths = [-10, 10, 30, 50, 70, 90];
+    let colors = ['#D1E231', 'green', 'cyan', 'yellow', 'orange', 'red'];
     let labels = [];
 
     for (let i = 0; i < depths.length; i++) {
         div.innerHTML +=
             '<i style="background:' + colors[i] + '"></i> ' +
             depths[i] + (depths[i + 1] ? '&ndash;' + depths[i + 1] + '<br>' : '+');
+    }
+
+    // Add the numbers beside the colors
+    let legendItems = div.getElementsByTagName('i');
+    for (let i = 0; i < legendItems.length; i++) {
+        let number = document.createElement('span');
+        number.className = 'legend-number';
+        number.textContent = depths[i];
+        legendItems[i].appendChild(number);
     }
 
     return div;
